@@ -13,6 +13,16 @@ import LoginPage from './components/auth/LoginPage';
 import SignUpPage from './components/auth/SignUpPage';
 import './styles/global.css';
 
+function Layout({ children }) {
+  return (
+    <>
+      <Navbar />
+      <main style={{ flex: 1 }}>{children}</main>
+      <Footer />
+    </>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -20,24 +30,19 @@ export default function App() {
         <BlogProvider>
           <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Routes>
+              
+              {/* Public Routes */}
               <Route path="/landing" element={<LandingPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignUpPage />} />
-              <Route path="*" element={
-                <>
-                  <Navbar />
-                  <main style={{ flex: 1 }}>
-                    <Routes>
-                      <Route path="/" element={<HomePage />} />
-                      <Route path="/post/:id" element={<PostDetailPage />} />
-                      <Route path="/new-post" element={<NewPostPage />} />
-                      <Route path="/edit/:id" element={<EditPostPage />} />
-                      <Route path="/admin" element={<AdminDashboard />} />
-                    </Routes>
-                  </main>
-                  <Footer />
-                </>
-              } />
+
+              {/* Main App Routes */}
+              <Route path="/" element={<Layout><HomePage /></Layout>} />
+              <Route path="/post/:id" element={<Layout><PostDetailPage /></Layout>} />
+              <Route path="/new-post" element={<Layout><NewPostPage /></Layout>} />
+              <Route path="/edit/:id" element={<Layout><EditPostPage /></Layout>} />
+              <Route path="/admin" element={<Layout><AdminDashboard /></Layout>} />
+
             </Routes>
           </div>
         </BlogProvider>
